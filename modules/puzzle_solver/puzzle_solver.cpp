@@ -634,6 +634,25 @@ void PuzzleSolver::build_game_tree_internal(const BoardState &initial_board,
 		}
 
 		if (legal_moves.empty()) {
+			// No legal moves - opponent must pass (or player has no moves)
+			if (!current.is_player_turn) {
+				// Store pass in database if not already there
+				if (!move_database.has(board_hash)) {
+					Array response;
+					response.push_back(-1);
+					response.push_back(-1);
+					move_database[board_hash] = response;
+				}
+				
+				// Queue same position as player's turn (opponent passed)
+				QueueItem next;
+				next.board = current.board;
+				next.depth = current.depth + 1;
+				next.is_player_turn = true;
+				next.previous = current.previous;
+				next.has_previous = current.has_previous;
+				queue.push(next);
+			}
 			continue;
 		}
 

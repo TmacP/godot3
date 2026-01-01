@@ -13,7 +13,7 @@ scons -j8 platform=osx arch=arm64 target=release_debug
 
 # Create Godot.app structure
 echo "Step 2: Creating Godot.app bundle..."
-rm -rf bin/Godot.app
+sudo rm -rf bin/Godot.app
 cp -R misc/dist/osx_tools.app bin/Godot.app
 mkdir -p bin/Godot.app/Contents/MacOS
 
