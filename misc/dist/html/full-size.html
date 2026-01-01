@@ -112,7 +112,7 @@
 			visibility: visible;
 		}
 	</style>
-$GODOT_HEAD_INCLUDE
+	$GODOT_HEAD_INCLUDE
 </head>
 <body>
 	<canvas id='canvas'>
@@ -139,6 +139,8 @@ $GODOT_HEAD_INCLUDE
 
 		const GODOT_CONFIG = $GODOT_CONFIG;
 		var engine = new Engine(GODOT_CONFIG);
+
+		function startGameLoading() {
 
 		(function() {
 			const INDETERMINATE_STATUS_STEP_MS = 100;
@@ -237,9 +239,13 @@ $GODOT_HEAD_INCLUDE
 				}).then(() => {
 					setStatusMode('hidden');
 					initializing = false;
+                    
 				}, displayFailureNotice);
 			}
 		})();
+		}
+
+		startGameLoading();
 	//]]></script>
 </body>
 </html>

@@ -31,6 +31,32 @@ def get_build_version():
     return v
 
 
+def get_template_version():
+    import version
+
+    v = "%d.%d" % (version.major, version.minor)
+    if version.patch > 0:
+        v += ".%d" % version.patch
+
+    status = version.status
+    if os.getenv("GODOT_VERSION_STATUS") != None:
+        status = str(os.getenv("GODOT_VERSION_STATUS"))
+    v += ".%s" % status
+
+    # `version.module_config` is expected to already include any leading dot when non-empty
+    # (e.g. ".mono"), and be empty otherwise.
+    module_config = str(getattr(version, "module_config", ""))
+    v += module_config
+    return v
+
+
+def create_version_txt(target, source, env):
+    with open(str(target[0]), "w", encoding="utf-8", newline="\n") as f:
+        f.write(get_template_version())
+        f.write("\n")
+    return 0
+
+
 def create_engine_file(env, target, source, externs):
     if env["use_closure_compiler"]:
         return env.BuildJS(target, source, JSEXTERNS=externs)
@@ -107,6 +133,12 @@ def create_template_zip(env, js, wasm, extra):
         out_files.append(zip_dir.File("godot.offline.html"))
 
     zip_files = env.InstallAs(out_files, in_files)
+
+    # Required by the editor's template installer. It reads version.txt from inside the zip
+    # and installs templates under that version directory.
+    version_txt = env.Command(zip_dir.File("version.txt"), [], create_version_txt)
+    zip_files.append(version_txt[0])
+
     env.Zip(
         "#bin/godot",
         zip_files,
