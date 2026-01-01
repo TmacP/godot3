@@ -1,5 +1,10 @@
 # Tristen build notes (Godot 3.x fork)
 
+## Custom Features
+
+### Tool Menu Shortcuts
+This fork adds support for binding shortcuts to custom tool menu items. See [CUSTOM_TOOL_SHORTCUTS.md](CUSTOM_TOOL_SHORTCUTS.md) for usage instructions and examples.
+
 ## Editor (macOS ARM64)
 Build the editor you run locally on your Mac:
 

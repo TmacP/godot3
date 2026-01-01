@@ -5370,10 +5370,16 @@ Variant EditorNode::drag_files_and_dirs(const Vector<String> &p_paths, Control *
 	return drag_data;
 }
 
-void EditorNode::add_tool_menu_item(const String &p_name, Object *p_handler, const String &p_callback, const Variant &p_ud) {
+void EditorNode::add_tool_menu_item(const String &p_name, Object *p_handler, const String &p_callback, const Variant &p_ud, const Ref<ShortCut> &p_shortcut) {
 	ERR_FAIL_NULL(p_handler);
 	int idx = tool_menu->get_item_count();
-	tool_menu->add_item(p_name, TOOLS_CUSTOM);
+
+	if (p_shortcut.is_valid()) {
+		tool_menu->add_shortcut(p_shortcut, TOOLS_CUSTOM);
+		tool_menu->set_item_text(idx, p_name);
+	} else {
+		tool_menu->add_item(p_name, TOOLS_CUSTOM);
+	}
 
 	Array parameters;
 	parameters.push_back(p_handler->get_instance_id());
