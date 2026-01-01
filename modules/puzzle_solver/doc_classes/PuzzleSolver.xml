@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="PuzzleSolver" inherits="Reference" version="3.6">
+	<brief_description>
+		Fast C++ implementation of Go puzzle solving for tsumego puzzles.
+	</brief_description>
+	<description>
+		PuzzleSolver provides high-performance Go (Baduk) puzzle solving capabilities. It can find optimal solutions for tsumego puzzles and build complete game trees with opponent responses.
+		This is significantly faster than GDScript implementations due to native C++ execution.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="solve_puzzle">
+			<return type="Dictionary" />
+			<argument index="0" name="board_2d" type="Array" />
+			<argument index="1" name="player_color" type="int" />
+			<argument index="2" name="target_stones" type="Array" />
+			<argument index="3" name="max_moves" type="int" default="6" />
+			<description>
+				Finds a winning solution for the given puzzle.
+				[code]board_2d[/code]: 2D array representing the board state (0=empty, 1=black, 2=white).
+				[code]player_color[/code]: The color of the player to move (1=black, 2=white).
+				[code]target_stones[/code]: Array of [x, y] positions that must be captured. If empty, all opponent stones must be captured.
+				[code]max_moves[/code]: Maximum number of player moves to search.
+				Returns a Dictionary with:
+				- "found": bool - whether a solution was found
+				- "player_moves": Array of [x, y] positions for player moves
+				- "opponent_moves": Array of [x, y] positions for opponent responses
+			</description>
+		</method>
+		<method name="build_game_tree">
+			<return type="Dictionary" />
+			<argument index="0" name="board_2d" type="Array" />
+			<argument index="1" name="target_stones" type="Array" />
+			<argument index="2" name="solution_player_moves" type="Array" />
+			<argument index="3" name="solution_opponent_moves" type="Array" />
+			<argument index="4" name="max_depth" type="int" default="8" />
+			<description>
+				Builds a complete game tree with opponent responses for all possible player moves.
+				This allows the puzzle to respond to any player move, not just the optimal solution.
+				Returns a Dictionary mapping board state hashes to [x, y] opponent responses.
+			</description>
+		</method>
+		<method name="simulate_single_move">
+			<return type="Array" />
+			<argument index="0" name="board_2d" type="Array" />
+			<argument index="1" name="x" type="int" />
+			<argument index="2" name="y" type="int" />
+			<argument index="3" name="color" type="int" />
+			<description>
+				Simulates a single move on the board.
+				Returns the resulting board state as a 2D array, or an empty array if the move is invalid.
+			</description>
+		</method>
+		<method name="is_goal_achieved">
+			<return type="bool" />
+			<argument index="0" name="board_2d" type="Array" />
+			<argument index="1" name="player_color" type="int" />
+			<argument index="2" name="target_stones" type="Array" />
+			<description>
+				Checks if the puzzle goal has been achieved (target stones captured or no opponent stones remain).
+			</description>
+		</method>
+	</methods>
+	<constants>
+		<constant name="EMPTY" value="0">
+			Empty cell on the board.
+		</constant>
+		<constant name="BLACK" value="1">
+			Black stone.
+		</constant>
+		<constant name="WHITE" value="2">
+			White stone.
+		</constant>
+	</constants>
+</class>
