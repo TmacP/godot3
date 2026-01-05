@@ -112,9 +112,7 @@
 			visibility: visible;
 		}
 	</style>
-	<!-- Poki SDK include (safe to ignore if unavailable) -->
-	<script src="//game-cdn.poki.com/scripts/v2/poki-sdk.js"></script>
-$GODOT_HEAD_INCLUDE
+
 </head>
 <body>
 	<canvas id='canvas'>
@@ -241,34 +239,13 @@ $GODOT_HEAD_INCLUDE
 				}).then(() => {
 					setStatusMode('hidden');
 					initializing = false;
-					try {
-						if (typeof PokiSDK !== 'undefined' && PokiSDK && PokiSDK.gameLoadingFinished) {
-							PokiSDK.gameLoadingFinished();
-						}
-					} catch (e) {}
+
 				}, displayFailureNotice);
 			}
 		})();
 		}
 
-		(function () {
-			function startAnyway() {
-				startGameLoading();
-			}
 
-			try {
-				var hn = window.location.hostname;
-				if (typeof PokiSDK !== 'undefined' && PokiSDK && PokiSDK.setDebug && (hn === 'localhost' || hn === '127.0.0.1')) {
-					PokiSDK.setDebug(true);
-				}
-			} catch (e) {}
-
-			if (typeof PokiSDK !== 'undefined' && PokiSDK && PokiSDK.init) {
-				PokiSDK.init().then(startAnyway).catch(startAnyway);
-			} else {
-				startAnyway();
-			}
-		})();
 	//]]></script>
 </body>
 </html>

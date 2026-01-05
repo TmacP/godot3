@@ -176,7 +176,7 @@ public:
 	void remove_control_from_docks(Control *p_control);
 	void remove_control_from_bottom_panel(Control *p_control);
 
-	void add_tool_menu_item(const String &p_name, Object *p_handler, const String &p_callback, const Variant &p_ud = Variant());
+	void add_tool_menu_item(const String &p_name, Object *p_handler, const String &p_callback, const Variant &p_ud = Variant(), const Ref<ShortCut> &p_shortcut = Ref<ShortCut>());
 	void add_tool_submenu_item(const String &p_name, Object *p_submenu);
 	void remove_tool_menu_item(const String &p_name);
 
